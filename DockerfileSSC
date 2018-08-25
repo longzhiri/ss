@@ -1,0 +1,8 @@
+FROM golang:latest
+RUN go get -u github.com/xtaci/kcptun/client && go get -u github.com/shadowsocks/shadowsocks-go/cmd/shadowsocks-local
+
+EXPOSE 7070
+
+COPY client.sh /workspace/
+
+ENTRYPOINT ["/workspace/client.sh"]

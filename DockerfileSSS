@@ -1,0 +1,15 @@
+
+FROM golang:latest as kcp
+RUN go get -u github.com/xtaci/kcptun/server
+
+FROM centos:7 as start
+
+RUN yum install -y python-setuptools && easy_install pip && pip install shadowsocks  
+
+EXPOSE 4000
+
+COPY --from=0 /go/bin/server /root/workspace/kcp-server
+
+COPY server.sh /root/workspace/
+
+ENTRYPOINT ["/root/workspace/server.sh"]
